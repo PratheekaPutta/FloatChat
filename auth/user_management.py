@@ -6,7 +6,6 @@ import re
 
 def create_admin_user():
     """Create default admin user if it doesn't exist"""
-    # Check if admin user already exists
     query = "SELECT COUNT(*) as count FROM users WHERE username = 'admin'"
     result = execute_query(query)
     
@@ -50,7 +49,7 @@ def create_demo_users():
     for user_data in demo_users:
         # Check if user exists
         query = "SELECT COUNT(*) as count FROM users WHERE username = %s"
-        result = execute_query(query, (user_data['username'],))
+        result = execute_query(query, (user_data['username'],))   # fixed tuple
         
         if result and result[0]['count'] == 0:
             hashed_password = hash_password(user_data['password'])
@@ -90,14 +89,14 @@ def create_user(username, email, password, role):
     
     # Check if username already exists
     query = "SELECT COUNT(*) as count FROM users WHERE username = %s"
-    result = execute_query(query, (username,))
+    result = execute_query(query, (username,))   # fixed tuple
     
     if result and result[0]['count'] > 0:
         return False, "Username already exists"
     
     # Check if email already exists
     query = "SELECT COUNT(*) as count FROM users WHERE email = %s"
-    result = execute_query(query, (email,))
+    result = execute_query(query, (email,))   # fixed tuple
     
     if result and result[0]['count'] > 0:
         return False, "Email already exists"
@@ -144,9 +143,8 @@ def update_user_role(user_id, new_role):
 
 def toggle_user_status(user_id):
     """Toggle user active status"""
-    # Get current status
     query = "SELECT is_active FROM users WHERE id = %s"
-    result = execute_query(query, (user_id,))
+    result = execute_query(query, (user_id,))   # fixed tuple
     
     if result and len(result) > 0:
         current_status = result[0]['is_active']
@@ -165,17 +163,15 @@ def toggle_user_status(user_id):
 
 def delete_user(user_id):
     """Delete a user (soft delete by deactivating)"""
-    # Don't allow deletion of admin user
     query = "SELECT role FROM users WHERE id = %s"
-    result = execute_query(query, (user_id,))
+    result = execute_query(query, (user_id,))   # fixed tuple
     
     if result and len(result) > 0:
         if result[0]['role'] == 'Admin':
             return False, "Cannot delete admin user"
         
-        # Deactivate instead of hard delete
         update_query = "UPDATE users SET is_active = false WHERE id = %s"
-        update_result = execute_query(update_query, (user_id,), fetch=False)
+        update_result = execute_query(update_query, (user_id,), fetch=False)   # fixed tuple
         
         if update_result is not None:
             return True, "User deactivated successfully"

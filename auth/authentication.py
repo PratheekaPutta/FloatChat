@@ -40,7 +40,7 @@ def verify_jwt_token(token):
 def authenticate_user(username, password):
     """Authenticate user with username and password"""
     query = "SELECT id, username, password_hash, role, email, is_active FROM users WHERE username = %s"
-    result = execute_query(query, (username,))
+    result = execute_query(query, (username,))   # fixed tuple
     
     if result and len(result) > 0:
         user = result[0]
@@ -64,7 +64,7 @@ def authenticate_user(username, password):
             
             # Update last login
             update_query = "UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = %s"
-            execute_query(update_query, (user['id'],), fetch=False)
+            execute_query(update_query, (user['id'],), fetch=False)   # fixed tuple
             
             return st.session_state.current_user
     
@@ -77,7 +77,7 @@ def get_current_user():
         if token_data:
             # Refresh user data from database
             query = "SELECT id, username, role, email, is_active FROM users WHERE id = %s"
-            result = execute_query(query, (token_data['user_id'],))
+            result = execute_query(query, (token_data['user_id'],))   # fixed tuple
             
             if result and len(result) > 0:
                 user = result[0]
