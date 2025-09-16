@@ -28,3 +28,7 @@ git clone <repository-url>
 cd argo-ai-system
 pip install -r requirements.txt
 ```
+2. **Run streamlit app**
+```bash
+streamlit run app.py
+```
