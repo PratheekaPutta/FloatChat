@@ -2,6 +2,15 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+SMTP_SERVER = os.getenv("SMTP_SERVER")
+SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
+SMTP_USER = os.getenv("SMTP_USER")
+SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
+
+GEOIP_API_KEY = os.getenv("GEOIP_API_KEY")
+MAX_LOGIN_ATTEMPTS = int(os.getenv("MAX_LOGIN_ATTEMPTS", 5))
+LOCKOUT_DURATION_MINUTES = int(os.getenv("LOCKOUT_DURATION_MINUTES", 15))
 
 class Settings:
     """Application settings and configuration"""
