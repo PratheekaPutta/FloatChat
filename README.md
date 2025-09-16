@@ -26,3 +26,5 @@ This application provides an AI-powered conversational interface for analyzing A
 ```bash
 git clone <repository-url>
 cd argo-ai-system
+pip install requirements.txt
+```
